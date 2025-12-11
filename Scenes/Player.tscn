@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://da8aje8cvakdq"]
+
+[ext_resource type="Script" uid="uid://fkxidw6e1dfw" path="res://Scripts/player.gd" id="1_rpqav"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gntrk"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_kyqiw"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rpqav"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_rpqav")
+SPEED = 5.619
+JUMP_VELOCITY = 9.453
+GRAVITY_SCALE = 2.8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_gntrk")
+
+[node name="CamPivot" type="Node3D" parent="."]
+top_level = true
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CamPivot"]
+spring_length = 5.0
+
+[node name="Camera3D" type="Camera3D" parent="CamPivot/SpringArm3D"]
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+remote_path = NodePath("../CamPivot")
+update_rotation = false
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals"]
+mesh = SubResource("CapsuleMesh_kyqiw")
+skeleton = NodePath("../..")
+
+[node name="pointer_hat" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 0.260929, 0, 0, 0, 1, 0, 0.717078, -0.474256)
+mesh = SubResource("BoxMesh_rpqav")
+skeleton = NodePath("../..")

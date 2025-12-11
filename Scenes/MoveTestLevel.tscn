@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://dfhwotr6tagui"]
+
+[ext_resource type="PackedScene" uid="uid://da8aje8cvakdq" path="res://Scenes/Player.tscn" id="1_ckova"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_2dfjr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ckova"]
+
+[node name="MoveTestLevel" type="Node3D"]
+
+[node name="FloorMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(40.9479, 0, 0, 0, 0.2631, 0, 0, 0, 43.5883, 0, 0, 0)
+mesh = SubResource("BoxMesh_2dfjr")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="FloorMesh"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorMesh/StaticBody3D"]
+shape = SubResource("BoxShape3D_ckova")
+
+[node name="Player" parent="." instance=ExtResource("1_ckova")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02466, 1.13155, -0.0463054)
+TURN_SPEED = 9.619
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.0537825, 0.998553, 0, -0.998553, -0.0537825, 0, 9.54217, 0)
+
+[node name="Box" type="MeshInstance3D" parent="."]
+transform = Transform3D(5.79276, 0, 0, 0, 5.48536, 0, 0, 0, -5.83847, -11.7408, 1.61874, -14.4205)
+mesh = SubResource("BoxMesh_2dfjr")
+skeleton = NodePath("../FloorMesh")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Box"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box/StaticBody3D"]
+shape = SubResource("BoxShape3D_ckova")
