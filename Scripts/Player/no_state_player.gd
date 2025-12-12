@@ -69,7 +69,7 @@ func _physics_process(delta: float) -> void:
 		velocity.z = direction.z * SPEED
 
 		# Rotate to face moving direction
-		var target_rotation:float = atan2(-direction.x, -direction.z)
+		var target_rotation := atan2(-direction.x, -direction.z)
 		#TODO: why cant I replace this 0.1 constant with a variable???? with the same value?? casuses spinning...
 		rotation.y = lerp_angle(rotation.y, target_rotation, 0.1)
 
