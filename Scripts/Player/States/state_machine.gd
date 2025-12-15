@@ -2,6 +2,10 @@ extends Node
 
 class_name StateMachine
 
+# state machine vid reference
+# https://www.youtube.com/watch?v=yQLjbzhWkII
+
+
 @export var initial_state: State
 var current_state: State
 var states: Dictionary = {}
@@ -31,6 +35,7 @@ func _input(event: InputEvent) -> void:
 # TODO: should probably make this an enum
 func change_state(new_state_name: String) -> void:
 	if current_state:
+		print("Exit ", current_state)
 		current_state.exit()
 
 	current_state = states.get(new_state_name.to_lower())

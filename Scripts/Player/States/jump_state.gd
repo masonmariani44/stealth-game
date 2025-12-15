@@ -3,7 +3,7 @@ extends State
 class_name JumpState
 
 
-@export_range(0.0, 20.0) var JUMP_VELOCITY := 4.5
+@export_range(0.0, 20.0) var JUMP_VELOCITY := 8.5
 @export_range(0.0, 10.0) var SPEED := 5.0
 
 

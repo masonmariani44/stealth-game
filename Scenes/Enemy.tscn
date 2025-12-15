@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://lx05ojsuat1m"]
+
+[ext_resource type="Script" uid="uid://dyhgy0ddrxd1m" path="res://Scripts/Enemy/enemy.gd" id="1_m1htj"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7fd37"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_m1htj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wovta"]
+albedo_color = Color(0.782162, 0.256612, 0.27413, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wovta"]
+
+[node name="Enemy" type="CharacterBody3D"]
+script = ExtResource("1_m1htj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_7fd37")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals"]
+mesh = SubResource("CapsuleMesh_m1htj")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_wovta")
+
+[node name="pointer_hat" type="MeshInstance3D" parent="Visuals"]
+transform = Transform3D(1, 0, 0, 0, 0.260929, 0, 0, 0, 1, 0, 0.717078, -0.474256)
+mesh = SubResource("BoxMesh_wovta")
+skeleton = NodePath("../..")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]

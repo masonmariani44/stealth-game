@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://da8aje8cvakdq"]
+[gd_scene load_steps=11 format=3 uid="uid://da8aje8cvakdq"]
 
 [ext_resource type="Script" uid="uid://b0k1we80q3lm6" path="res://Scripts/Player/player.gd" id="1_rpqav"]
 [ext_resource type="Script" uid="uid://bhxkamas02fe5" path="res://Scripts/Player/States/state_machine.gd" id="2_5ixxa"]
@@ -8,6 +8,8 @@
 [ext_resource type="Script" uid="uid://cerbuhbrxcnob" path="res://Scripts/Player/States/walk_state.gd" id="5_bhhdu"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gntrk"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_nn08x"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_kyqiw"]
 
@@ -25,7 +27,9 @@ top_level = true
 script = ExtResource("2_nn08x")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CamPivot"]
-spring_length = 5.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.20351, 1.04705, 0)
+shape = SubResource("SphereShape3D_nn08x")
+spring_length = 4.81
 
 [node name="Camera3D" type="Camera3D" parent="CamPivot/SpringArm3D"]
 

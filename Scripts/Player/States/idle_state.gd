@@ -11,12 +11,18 @@ func enter():
     print("Enter idle state")
 
 
-func physics_update(_delta):
+func physics_update(delta):
     var character = state_machine.get_parent()
+
+	# Add the gravity.
+    if not character.is_on_floor():
+        character.velocity += character.get_gravity() * delta * character.GRAVITY_SCALE
 
     # Handle deceleration
     character.velocity.x = move_toward(character.velocity.x, 0, DECELERATION_SPEED)
     character.velocity.z = move_toward(character.velocity.z, 0, DECELERATION_SPEED)
+
+    character.move_and_slide()
 
 
 func handle_input(_event: InputEvent):
