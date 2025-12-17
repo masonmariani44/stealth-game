@@ -8,7 +8,7 @@ class_name IdleState
 
 
 func enter():
-    print("Enter idle state")
+    pass
 
 
 func physics_update(delta):

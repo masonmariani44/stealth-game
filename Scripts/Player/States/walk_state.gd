@@ -4,14 +4,14 @@ class_name WalkState
 
 
 @export_range(0.0, 10.0) var SPEED := 5.0
+@export var wall_raycast : WallDetectionRay
 
 
 
 
 
 func enter():
-	print("Enter walk state")
-
+	pass
 
 
 func physics_update(delta):
@@ -39,6 +39,27 @@ func physics_update(delta):
 		var target_rotation := atan2(-direction.x, -direction.z)
 		#TODO: why cant I replace this 0.1 constant with a variable???? with the same value?? casuses spinning...
 		character.rotation.y = lerp_angle(character.rotation.y, target_rotation, 0.1)
+
+
+
+
+		# !!!!!!!!! SIDLE CHANGES!!!!!!!!! 
+
+
+
+		# Check if sidle condition is met
+		# TODO: implement sidle states and transition here
+		if character.is_on_wall():
+			if wall_raycast.cast() == null:
+				print("no")
+			else:
+				print("yes!!")
+
+
+
+		# !!!! end sidle !!!!!!
+
+
 
 	else:
 		state_machine.change_state("IdleState")

@@ -8,7 +8,6 @@ class_name JumpState
 
 
 func enter():
-    print("Enter jump state")
 
     var character = state_machine.get_parent()
     character.velocity.y = JUMP_VELOCITY
