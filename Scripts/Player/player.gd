@@ -6,3 +6,7 @@ extends CharacterBody3D
 
 
 @export_range(0.0, 10.0)  var GRAVITY_SCALE := 1.0 	# NOTE: 2.8 feels nice
+
+# Sidle
+@export_range(0.0, 1000.0) var WALL_PULL_SPEED := 5.0
+var wall_inverse_normal : Vector3

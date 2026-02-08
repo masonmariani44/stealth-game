@@ -48,12 +48,9 @@ func physics_update(delta):
 
 
 		# Check if sidle condition is met
-		# TODO: implement sidle states and transition here
 		if character.is_on_wall():
-			if wall_raycast.cast() == null:
-				print("no")
-			else:
-				print("yes!!")
+			if wall_raycast.cast() != null:
+				state_machine.change_state("WalkSidleState")
 
 
 

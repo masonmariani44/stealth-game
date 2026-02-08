@@ -8,30 +8,30 @@ class_name IdleState
 
 
 func enter():
-    pass
+	pass
 
 
 func physics_update(delta):
-    var character = state_machine.get_parent()
+	var character = state_machine.get_parent()
 
 	# Add the gravity.
-    if not character.is_on_floor():
-        character.velocity += character.get_gravity() * delta * character.GRAVITY_SCALE
+	if not character.is_on_floor():
+		character.velocity += character.get_gravity() * delta * character.GRAVITY_SCALE
 
-    # Handle deceleration
-    character.velocity.x = move_toward(character.velocity.x, 0, DECELERATION_SPEED)
-    character.velocity.z = move_toward(character.velocity.z, 0, DECELERATION_SPEED)
+	# Handle deceleration
+	character.velocity.x = move_toward(character.velocity.x, 0, DECELERATION_SPEED)
+	character.velocity.z = move_toward(character.velocity.z, 0, DECELERATION_SPEED)
 
-    character.move_and_slide()
+	character.move_and_slide()
 
 
 func handle_input(_event: InputEvent):
-    if \
-    Input.is_action_pressed("forward") or \
-    Input.is_action_pressed("back")    or \
-    Input.is_action_pressed("left")    or \
-    Input.is_action_pressed("right"):
-        state_machine.change_state("WalkState")
+	if \
+	Input.is_action_pressed("forward") or \
+	Input.is_action_pressed("back")    or \
+	Input.is_action_pressed("left")    or \
+	Input.is_action_pressed("right"):
+		state_machine.change_state("WalkState")
 
-    if Input.is_action_just_pressed("jump"):
-        state_machine.change_state("JumpState")
+	if Input.is_action_just_pressed("jump"):
+		state_machine.change_state("JumpState")
