@@ -19,6 +19,7 @@
 [sub_resource type="BoxMesh" id="BoxMesh_rpqav"]
 
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 2
 script = ExtResource("1_rpqav")
 GRAVITY_SCALE = 2.8
 WALL_PULL_SPEED = 622.472
@@ -37,20 +38,12 @@ spring_length = 4.81
 
 [node name="Camera3D" type="Camera3D" parent="CamPivot/SpringArm3D"]
 
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]
+[node name="RemoteTransform3D_CamPivot" type="RemoteTransform3D" parent="."]
 remote_path = NodePath("../CamPivot")
 update_rotation = false
 
-[node name="Visuals" type="Node3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals"]
-mesh = SubResource("CapsuleMesh_kyqiw")
-skeleton = NodePath("../..")
-
-[node name="pointer_hat" type="MeshInstance3D" parent="Visuals"]
-transform = Transform3D(1, 0, 0, 0, 0.260929, 0, 0, 0, 1, 0, 0.717078, -0.474256)
-mesh = SubResource("BoxMesh_rpqav")
-skeleton = NodePath("../..")
+[node name="RemoteTransform3D_Visuals" type="RemoteTransform3D" parent="."]
+remote_path = NodePath("../VisualsCollection/Visuals")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("2_5ixxa")
@@ -67,19 +60,52 @@ metadata/_custom_type_script = "uid://cqt6vndiqke1l"
 
 [node name="WalkState" type="Node" parent="StateMachine" node_paths=PackedStringArray("wall_raycast")]
 script = ExtResource("5_bhhdu")
-wall_raycast = NodePath("../../WallDetectionRay")
+wall_raycast = NodePath("../../WallRays/WallDetectionRayForward")
 metadata/_custom_type_script = "uid://cerbuhbrxcnob"
 
-[node name="WalkSidleState" type="Node" parent="StateMachine" node_paths=PackedStringArray("wall_raycast")]
+[node name="WalkSidleState" type="Node" parent="StateMachine" node_paths=PackedStringArray("wall_detect_raycast_forward", "wall_leave_raycast_left", "wall_leave_raycast_right", "wall_leave_raycast_forward")]
 script = ExtResource("4_bhhdu")
-wall_raycast = NodePath("../../WallDetectionRay")
+wall_detect_raycast_forward = NodePath("../../WallRays/WallDetectionRayForward")
+wall_leave_raycast_left = NodePath("../../WallRays/WallLeaveRayLeft")
+wall_leave_raycast_right = NodePath("../../WallRays/WallLeaveRayForward")
+wall_leave_raycast_forward = NodePath("../../WallRays/WallLeaveRayRight")
 metadata/_custom_type_script = "uid://cfit4r2a6s5ky"
 
 [node name="IdleSidleState" type="Node" parent="StateMachine"]
 script = ExtResource("8_megsn")
 metadata/_custom_type_script = "uid://cfit4r2a6s5ky"
 
-[node name="WallDetectionRay" type="RayCast3D" parent="."]
+[node name="WallRays" type="Node3D" parent="."]
+
+[node name="WallDetectionRayForward" type="RayCast3D" parent="WallRays"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
 target_position = Vector3(0, 0, -0.08)
 script = ExtResource("7_52ee3")
+
+[node name="WallLeaveRayLeft" type="RayCast3D" parent="WallRays"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+target_position = Vector3(-0.15, 0, 0)
+script = ExtResource("7_52ee3")
+
+[node name="WallLeaveRayForward" type="RayCast3D" parent="WallRays"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+target_position = Vector3(0, 0, -1.24)
+script = ExtResource("7_52ee3")
+
+[node name="WallLeaveRayRight" type="RayCast3D" parent="WallRays"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+target_position = Vector3(0.15, 0, 0)
+script = ExtResource("7_52ee3")
+
+[node name="VisualsCollection" type="Node" parent="."]
+
+[node name="Visuals" type="Node3D" parent="VisualsCollection"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="VisualsCollection/Visuals"]
+mesh = SubResource("CapsuleMesh_kyqiw")
+skeleton = NodePath("../../..")
+
+[node name="pointer_hat" type="MeshInstance3D" parent="VisualsCollection/Visuals"]
+transform = Transform3D(1, 0, 0, 0, 0.149322, 0, 0, 0, 1, 0, 0.81039, -0.468283)
+mesh = SubResource("BoxMesh_rpqav")
+skeleton = NodePath("../../..")
