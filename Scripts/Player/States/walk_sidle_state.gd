@@ -41,17 +41,14 @@ func enter():
 	character.global_transform.basis = character.global_transform.basis.orthonormalized()
 	character.rotation.z = 0
 
-	"""
-
-	TODO:
-		- upon entering this state, player should rotate to face the correct way 
-		(probably the way the're currently facing)
-
-		- now the sidling can start
 
 
 
-	"""
+func leave_sidle_to(new_state : String):
+	var character = state_machine.get_parent()
+	character.remote_transform_visuals.update_rotation = true
+	character.visuals.rotation = character.rotation
+	state_machine.change_state(new_state)
 
 
 
@@ -61,34 +58,6 @@ func physics_update(delta):
 	character.remote_transform_visuals.update_rotation = false
 
 
-	"""
-
-	TODO:
-		- now with sidling set up we can start moving the player along the wall
-		- this can be achived by walking like normal, but applying a massive gravity vector towards the wall they're touching
-		- find closest wall to player
-			- shoot raycast out of right side of body, get normal of the surface
-			- apply force in inverse of that vector
-		- apply force
-		- if range exceeded, leave sidle 
-		- TODO: this "range exceeded" needs thinking about. 
-
-		- NOTE:
-			the wall detection should have NOTHING To do with the visuals. use internal
-			camera / position / rotation info for that
-			- ex. player turns around mid sidle. visuals change, sidle shouldnt end
-
-	THIS IS WORKING!!!
-	sorta...
-	its kinda a mess, but the idea is there. just need to worry about ending the state now and
-	cleaning up the code a bit
-	
-
-
-
-
-
-	"""
 
 	# Add the gravity.
 	#if not character.is_on_floor():
@@ -97,8 +66,17 @@ func physics_update(delta):
 	"""
 	DO NOT add the gravity... yet? 
 	add force towards the wall. right now i'm not dynamically getting the closest wall just the OG
+
+	TODO: need to test this when sidling over ledge
 	"""
-	
+
+
+	var angle_diff = character.wall_inverse_normal.signed_angle_to(character.transform.basis.z, Vector3.UP)
+	print(character.visuals.rotation)
+	if angle_diff > 0:
+		pass
+		#character.visuals.rotation += 180
+
 
 
 
@@ -136,10 +114,7 @@ func physics_update(delta):
 			wall_leave_raycast_right.cast()   == null and \
 			wall_leave_raycast_left.cast()    == null and \
 			wall_leave_raycast_forward.cast() == null:
-				print("change back to walk state")
-				character.remote_transform_visuals.update_rotation = true
-				character.visuals.rotation = character.rotation
-				state_machine.change_state("WalkState")
+				leave_sidle_to("WalkState")
 
 
 
@@ -147,7 +122,6 @@ func physics_update(delta):
 
 
 	else:
-		print("change back to idle sidle state")
 		state_machine.change_state("IdleSidleState")
 
 	
@@ -161,5 +135,4 @@ func physics_update(delta):
 
 func handle_input(_event):
 	if Input.is_action_just_pressed("jump"):
-		print("jump state!!")
-		state_machine.change_state("JumpState")
+		leave_sidle_to("JumpState")
