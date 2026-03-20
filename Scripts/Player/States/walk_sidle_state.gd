@@ -58,6 +58,7 @@ func physics_update(delta):
 	character.remote_transform_visuals.update_rotation = false
 
 
+	# TODO:player should only be able to sidle on wall layer!!! right now it looks like they can sidle on enemies too
 
 	# Add the gravity.
 	#if not character.is_on_floor():

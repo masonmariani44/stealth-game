@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dfhwotr6tagui"]
+[gd_scene load_steps=9 format=3 uid="uid://dfhwotr6tagui"]
 
 [ext_resource type="PackedScene" uid="uid://da8aje8cvakdq" path="res://Scenes/Player.tscn" id="1_ckova"]
+[ext_resource type="PackedScene" uid="uid://lx05ojsuat1m" path="res://Scenes/Enemy.tscn" id="2_glc4y"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_glc4y"]
 vertices = PackedVector3Array(6.9587, 0.183235, 7.86624, 7.9587, 0.183235, 9.36624, 12.4587, 0.183235, 9.36624, 12.4587, 0.183235, 3.86624, -36.0413, 0.183235, -30.1338, -28.5413, 0.183235, -9.88376, -27.5413, 0.183235, -9.88376, 13.2087, 0.183235, 3.11624, 14.4587, 0.183235, -30.1338, -36.0413, 0.183235, 1.86624, -34.7913, 0.183235, 2.11624, -29.2913, 0.183235, -9.13376, 14.7087, 0.183235, 3.11624, 31.4587, 0.183235, 3.11624, 32.2087, 0.183235, 3.86624, 32.2087, 0.183235, -30.1338, 5.2087, 6.68323, 10.1162, 5.7087, 6.68323, 9.86624, 5.4587, 6.68323, 9.36624, 0.208698, 6.68323, 18.8662, 0.958698, 6.68323, 18.8662, -27.5413, 6.68323, -7.63376, -32.5413, 6.68323, 1.61624, -32.2913, 6.68323, 2.11624, -27.2913, 0.183235, -7.13376, -32.0413, 0.183235, 1.36624, -32.0413, 0.183235, 1.86624, 0.458698, 0.183235, 18.6162, 5.2087, 0.183235, 9.86624, -33.7913, 0.183235, 3.61624, -36.0413, 0.183235, 31.8662, 0.958698, 0.183235, 21.3662, 0.958698, 0.183235, 31.8662, 14.4587, 13.9832, 5.11624, 14.4587, 13.9832, 15.6162, 30.2087, 13.9832, 15.6162, 30.2087, 13.9832, 5.11624, 14.7087, 0.183235, 5.36624, 14.7087, 0.183235, 15.3662, 29.9587, 0.183235, 15.3662, 29.9587, 0.183235, 5.36624, 12.4587, 0.183235, 16.8662, 2.4587, 0.183235, 20.3662, 14.4587, 0.183235, 31.8662, 14.7087, 0.183235, 17.6162, 13.2087, 0.183235, 17.6162, 32.2087, 0.183235, 31.8662, 32.2087, 0.183235, 16.8662, 31.4587, 0.183235, 17.6162)
@@ -8,9 +9,17 @@ polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Arr
 cell_height = 0.1
 agent_radius = 1.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glc4y"]
+albedo_color = Color(0.159335, 0.143591, 0.234655, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_glc4y"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2opyb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2opyb"]
+albedo_color = Color(0.694118, 0.8, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_nmvim"]
 
 [node name="MoveTestLevel" type="Node3D"]
 
@@ -28,6 +37,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.85717, -0.462404, 0.863785
 
 [node name="Floor" type="MeshInstance3D" parent="NavigationRegion3D/Geometry"]
 transform = Transform3D(70.3683, 0, 0, 0, 1.0004, 0, 0, 0, 63.9951, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_glc4y")
 mesh = SubResource("BoxMesh_glc4y")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Geometry/Floor"]
@@ -52,3 +62,44 @@ mesh = SubResource("BoxMesh_glc4y")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Geometry/Box2/StaticBody3D"]
 shape = SubResource("BoxShape3D_2opyb")
+
+[node name="Enemy" parent="." node_paths=PackedStringArray("patrol_path") instance=ExtResource("2_glc4y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.86045, 1.0378, -10.6841)
+patrol_path = NodePath("../Enemy_PatrolPath1")
+
+[node name="Enemy_PatrolPath1" type="Node3D" parent="."]
+
+[node name="0" type="Node3D" parent="Enemy_PatrolPath1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.281, 1, -21.173)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy_PatrolPath1/0"]
+material_override = SubResource("StandardMaterial3D_2opyb")
+mesh = SubResource("SphereMesh_nmvim")
+
+[node name="1" type="Node3D" parent="Enemy_PatrolPath1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.688, 1, -21.173)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy_PatrolPath1/1"]
+material_override = SubResource("StandardMaterial3D_2opyb")
+mesh = SubResource("SphereMesh_nmvim")
+
+[node name="2" type="Node3D" parent="Enemy_PatrolPath1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.3231, 0.999998, 11.8362)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy_PatrolPath1/2"]
+material_override = SubResource("StandardMaterial3D_2opyb")
+mesh = SubResource("SphereMesh_nmvim")
+
+[node name="3" type="Node3D" parent="Enemy_PatrolPath1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.181, 1, 18.8763)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy_PatrolPath1/3"]
+material_override = SubResource("StandardMaterial3D_2opyb")
+mesh = SubResource("SphereMesh_nmvim")
+
+[node name="4" type="Node3D" parent="Enemy_PatrolPath1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.4972, 1, -25.6945)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy_PatrolPath1/4"]
+material_override = SubResource("StandardMaterial3D_2opyb")
+mesh = SubResource("SphereMesh_nmvim")

@@ -1,6 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://lx05ojsuat1m"]
+[gd_scene load_steps=11 format=3 uid="uid://lx05ojsuat1m"]
 
 [ext_resource type="Script" uid="uid://dyhgy0ddrxd1m" path="res://Scripts/Enemy/enemy.gd" id="1_m1htj"]
+[ext_resource type="Script" uid="uid://bhxkamas02fe5" path="res://Scripts/State Machine/state_machine.gd" id="2_mo1ky"]
+[ext_resource type="Script" uid="uid://bacyo6etslmqm" path="res://Scripts/Enemy/States/alert_state.gd" id="3_6bs3c"]
+[ext_resource type="Script" uid="uid://dqd1aroasgit2" path="res://Scripts/Enemy/States/idle_state.gd" id="4_uoxpr"]
+[ext_resource type="Script" uid="uid://pvgfuyokqsow" path="res://Scripts/Enemy/States/patrol_state.gd" id="5_idouy"]
+[ext_resource type="Script" uid="uid://bokvme5gg6ou8" path="res://Scripts/Enemy/States/pursuit_state.gd" id="6_0o0ue"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7fd37"]
 
@@ -30,3 +35,23 @@ mesh = SubResource("BoxMesh_wovta")
 skeleton = NodePath("../..")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("2_mo1ky")
+initial_state = NodePath("IdleState")
+
+[node name="AlertState" type="Node" parent="StateMachine"]
+script = ExtResource("3_6bs3c")
+
+[node name="IdleState" type="Node" parent="StateMachine"]
+script = ExtResource("4_uoxpr")
+
+[node name="IdleWaitTimer" type="Timer" parent="StateMachine/IdleState"]
+
+[node name="PatrolState" type="Node" parent="StateMachine"]
+script = ExtResource("5_idouy")
+
+[node name="PursuitState" type="Node" parent="StateMachine"]
+script = ExtResource("6_0o0ue")
+
+[connection signal="timeout" from="StateMachine/IdleState/IdleWaitTimer" to="StateMachine/IdleState" method="_on_idle_wait_timer_timeout"]
