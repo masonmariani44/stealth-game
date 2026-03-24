@@ -6,7 +6,7 @@ class_name Enemy_IdleState
 @export_range(0.0, 10.0) var DECELERATION_SPEED := 5.0
 
 
-
+var seen_player : CharacterBody3D
 
 
 func enter():
@@ -41,3 +41,14 @@ func physics_update(delta):
 
 func _on_idle_wait_timer_timeout() -> void:
 	state_machine.change_state("PatrolState")
+
+
+func _on_vision(body:Node3D) -> void:
+	if body.is_in_group("player"):
+		seen_player = body
+	
+
+
+func _on_vision_exit(body:Node3D) -> void:
+	if body.is_in_group("player"):
+		seen_player = null

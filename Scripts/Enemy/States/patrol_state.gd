@@ -8,6 +8,7 @@ var current_node := 0
 
 
 
+
 func enter():
 	var character = state_machine.get_parent()
 	character.nav_target = character.patrol_path_list[current_node]
@@ -49,7 +50,7 @@ func physics_update(_delta):
 	character.velocity = Vector3.ZERO
 	character.nav_agent.set_target_position(character.nav_target.global_position)
 	var next_nav_point = character.nav_agent.get_next_path_position()
-	character.velocity = (next_nav_point - character.global_position).normalized() * character.SPEED
+	character.velocity = (next_nav_point - character.global_position).normalized() * character.WALK_SPEED
 
 	# Rotate to face moving direction
 	var direction = character.velocity.normalized()
@@ -58,9 +59,18 @@ func physics_update(_delta):
 
 	# Check if target reached
 	var distance_to_target = (character.nav_target.position - character.position).length()
-	if distance_to_target <= 1:
+	if distance_to_target <= .1:
 		current_node = (current_node + 1) % character.patrol_path_list.size()
 		state_machine.change_state("IdleState")
+	
+
+
+	if character.seen_player:
+		character.detection_meter += 0.5
+		print(character.detection_meter)
+		if character.detection_meter >= 100:
+			state_machine.change_state("PursuitState")
+
 
 
 	character.move_and_slide()
@@ -68,3 +78,4 @@ func physics_update(_delta):
 
 
 	pass
+

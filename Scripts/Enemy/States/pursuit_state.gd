@@ -5,6 +5,12 @@ class_name Enemy_PursuitState
 
 
 
+func enter():
+	var character = state_machine.get_parent()
+
+	character.nav_target = character.seen_player
+
+
 
 func physics_update(_delta):
 

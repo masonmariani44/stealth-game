@@ -18,7 +18,7 @@
 
 [sub_resource type="BoxMesh" id="BoxMesh_rpqav"]
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" groups=["player"]]
 collision_layer = 2
 script = ExtResource("1_rpqav")
 GRAVITY_SCALE = 2.8
