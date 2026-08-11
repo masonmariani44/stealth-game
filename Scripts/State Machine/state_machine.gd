@@ -34,6 +34,12 @@ func _input(event: InputEvent) -> void:
 
 # TODO: should probably make this an enum
 func change_state(new_state_name: String) -> void:
+
+	if get_parent().name == "Enemy":
+		if current_state:
+			print("current_state:", current_state.name)
+			print("new_state:", new_state_name)
+
 	if current_state:
 		current_state.exit()
 

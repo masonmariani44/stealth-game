@@ -43,7 +43,6 @@ func physics_update(_delta):
 
 	var character = state_machine.get_parent()
 
-
 	# TODO: Probably shouldn't update position every update...
 
 	# Velocity towards target
@@ -67,7 +66,6 @@ func physics_update(_delta):
 
 	if character.seen_player:
 		character.detection_meter += 0.5
-		print(character.detection_meter)
 		if character.detection_meter >= 100:
 			state_machine.change_state("PursuitState")
 

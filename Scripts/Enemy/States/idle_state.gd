@@ -12,6 +12,8 @@ var seen_player : CharacterBody3D
 func enter():
 	$IdleWaitTimer.start()
 
+func exit():
+	$IdleWaitTimer.stop()
 
 func physics_update(delta):
 
@@ -40,13 +42,13 @@ func physics_update(delta):
 
 
 func _on_idle_wait_timer_timeout() -> void:
+	print("lol")
 	state_machine.change_state("PatrolState")
 
 
 func _on_vision(body:Node3D) -> void:
 	if body.is_in_group("player"):
 		seen_player = body
-	
 
 
 func _on_vision_exit(body:Node3D) -> void:

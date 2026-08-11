@@ -14,6 +14,7 @@ func enter():
 
 func physics_update(_delta):
 
+
 	var character = state_machine.get_parent()
 
 	# TODO: Probably shouldn't update position every update...
